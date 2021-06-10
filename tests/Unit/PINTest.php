@@ -14,7 +14,7 @@ class PINTest extends TestCase
     public function it_should_not_contain_repeated_digits()
     {
         // 4 same
-        $pin = new PIN(['value' => '1111']);
+        $pin = new PIN(['value' => '0000']);
         $this->assertFalse($pin->isValid());
 
         // 2 same

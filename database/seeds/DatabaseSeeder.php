@@ -1,5 +1,6 @@
 <?php
 
+use App\PIN;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,6 +12,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+        for ($i = 1000; $i <= 9999; $i++) {
+            $pin = new PIN(['value' => $i]);
+            if ($pin->isValid()) {
+                $pin->save();
+            }
+        }
     }
 }
