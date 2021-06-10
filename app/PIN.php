@@ -41,20 +41,19 @@ class PIN extends Model
      */
     protected function hasFewConsecutiveDigits(): bool
     {
-        $count = 0;
-        $nextDigit = 0;
+        $count = 1;
+        $nextConsecutiveDigit = -1;
 
         foreach ($this->digits() as $digit) {
-            if ($nextDigit > 0 && $digit === $nextDigit) {
-                $count++;
-            } else {
-                $count = 0;
-            }
-            if ($count == 2) {
-                return false;
-            }
-            $nextDigit = $digit + 1;
+            if ($count === 3) return false;
+
+            $digit === $nextConsecutiveDigit
+                ? $count ++
+                : $count = 1;
+
+            $nextConsecutiveDigit = $digit + 1;
         }
+
         return true;
     }
 

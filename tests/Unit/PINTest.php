@@ -23,6 +23,7 @@ class PINTest extends TestCase
         $this->assertTrue($pin->isValid());
     }
 
+
     /** @test */
     public function it_should_not_contain_sequences_of_more_than_two_consecutive_digits()
     {
@@ -31,7 +32,7 @@ class PINTest extends TestCase
         $this->assertFalse($pin->isValid());
 
         // 2 digit sequence
-        $pin = new PIN(['value' => '1254']);
+        $pin = new PIN(['value' => '1245']);
         $this->assertTrue($pin->isValid());
 
         // no sequence
