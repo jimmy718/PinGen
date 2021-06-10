@@ -3,10 +3,13 @@
 namespace Tests\Unit;
 
 use App\PIN;
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PINTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function it_should_not_contain_repeated_digits()
     {
@@ -38,5 +41,18 @@ class PINTest extends TestCase
         // no sequence
         $pin = new PIN(['value' => '1524']);
         $this->assertTrue($pin->isValid());
+    }
+
+    /** @test */
+    public function it_can_be_marked_as_used()
+    {
+        $pin = PIN::create([
+            'value' => '1468',
+            'used' => false
+        ]);
+
+        $pin->markUsed();
+
+        $this->assertTrue($pin->used);
     }
 }

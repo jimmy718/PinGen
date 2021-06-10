@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -9,10 +10,17 @@ use Illuminate\Support\Collection;
  * @property string value
  * @property boolean used
  *
+ * @mixin Builder
+ *
  * @package App
  */
 class PIN extends Model
 {
+    /**
+     * @var string
+     */
+    protected $table = 'PINs';
+
     /**
      * @var array
      */
@@ -26,6 +34,11 @@ class PIN extends Model
         return collect(str_split($this->value))->map(function ($digit) {
             return intval($digit);
         });
+    }
+
+    public function markUsed(): bool
+    {
+        return $this->update(['used' => true]);
     }
 
     /**
