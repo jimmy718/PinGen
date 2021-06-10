@@ -1,20 +1,9 @@
 version: "3.7"
 services:
   app:
-    build:
-      args:
-        user: james
-        uid: 1000
-      context: ./
-      dockerfile: ./docker/php/Dockerfile
-    image: pin-gen
-    container_name: pin-gen-app
-    restart: unless-stopped
-    working_dir: /var/www/
+    build: ./docker/php/Dockerfile
     volumes:
       - ./:/var/www
-    networks:
-      - pin-gen
 
   mysql:
     image: mysql:8
@@ -23,34 +12,20 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
     volumes:
-      - ./docker/mysql/data:/var/lib/mysql
-    networks:
-      - pin-gen
+      - ./docker/mysql/data:/var/lib/
 
   nginx:
     image: nginx
-    container_name: pin-gen-nginx
-    restart: unless-stopped
     ports:
       - 8000:80
     volumes:
       - ./:/var/www
       - ./docker/nginx:/etc/nginx/conf.d/
-    networks:
-      - pin-gen
 
   node:
     image: node
-    container_name: pin-gen-node
-    restart: unless-stopped
     volumes:
       - .:/var/www
     working_dir: /var/www
     command: "tail -f /dev/null"
-
-networks:
-  pin-gen:
-    driver: bridge
