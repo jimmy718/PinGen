@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -27,6 +28,20 @@ class PIN extends Model
     protected $guarded = [];
 
     /**
+     * @param array $options
+     * @return bool|void
+     * @throws Exception
+     */
+    public function save(array $options = []): bool
+    {
+        if (!$this->isValid()) {
+            throw new Exception('Invalid PINs cannot be saved');
+        }
+
+        return $this->save($options);
+    }
+
+    /**
      * @return Collection
      */
     public function digits(): Collection
@@ -36,6 +51,9 @@ class PIN extends Model
         });
     }
 
+    /**
+     * @return bool
+     */
     public function markUsed(): bool
     {
         return $this->update(['used' => true]);
