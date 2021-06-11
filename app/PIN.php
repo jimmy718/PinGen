@@ -28,20 +28,6 @@ class PIN extends Model
     protected $guarded = [];
 
     /**
-     * @param array $options
-     * @return bool|void
-     * @throws Exception
-     */
-    public function save(array $options = []): bool
-    {
-        if (!$this->isValid()) {
-            throw new Exception('Invalid PINs cannot be saved');
-        }
-
-        return $this->save($options);
-    }
-
-    /**
      * @return Collection
      */
     public function digits(): Collection

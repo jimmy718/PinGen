@@ -1,7 +1,12 @@
 version: "3.7"
 services:
   app:
-    build: ./docker/php/Dockerfile
+    build:
+      args:
+        user: pin-gen
+        uid: 1000
+      context: ./
+      dockerfile: ./docker/php/Dockerfile
     volumes:
       - ./:/var/www
 
