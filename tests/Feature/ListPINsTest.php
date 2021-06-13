@@ -106,4 +106,18 @@ class ListPINsTest extends TestCase
         $this->assertCount(2, $usedPINs);
         $this->assertEqualsCanonicalizing($returnedPINs->pluck('id'), $usedPINs->pluck('id'));
     }
+
+    /** @test */
+    public function no_more_than_10_PINs_can_be_requested_at_once()
+    {
+        $this->getJson(route('PINs.index', ['count' => 1]))->assertOk();
+        $this->getJson(route('PINs.index', ['count' => 10]))->assertOk();
+
+        $this->getJson(route('PINs.index', ['count' => 11]))->assertJsonValidationErrors([
+            'count'
+        ]);
+        $this->getJson(route('PINs.index', ['count' => 100]))->assertJsonValidationErrors([
+            'count'
+        ]);
+    }
 }
