@@ -17,6 +17,16 @@ use Illuminate\Support\Collection;
 class PIN extends Model
 {
     /**
+     * @var int
+     */
+    private const UNIQUE_DIGITS = 4;
+
+    /**
+     * @var int
+     */
+    private const MAXIMUM_CONSECUTIVE_DIGITS = 2;
+
+    /**
      * @var string
      */
     protected $table = 'PINs';
@@ -61,7 +71,9 @@ class PIN extends Model
         $nextConsecutiveDigit = -1;
 
         foreach ($this->digits() as $digit) {
-            if ($count === 3) return false;
+            if ($count === self::MAXIMUM_CONSECUTIVE_DIGITS + 1) {
+                return false;
+            }
 
             $digit === $nextConsecutiveDigit
                 ? $count ++
@@ -78,6 +90,6 @@ class PIN extends Model
      */
     protected function hasUniqueDigits(): bool
     {
-        return $this->digits()->unique()->count() === 4;
+        return $this->digits()->unique()->count() === self::UNIQUE_DIGITS;
     }
 }
