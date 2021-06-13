@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\RefreshPINsIfRequired;
 use App\PIN;
 use Illuminate\Http\Request;
 
@@ -9,9 +10,7 @@ class PINController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->input('count', 5) > PIN::where('used', false)->count()) {
-            PIN::where('used', true)->update(['used' => false]);
-        }
+        RefreshPINsIfRequired::dispatch($request->input('count', 5));
 
         $pins = PIN::query()
             ->where('used', false)

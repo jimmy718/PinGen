@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -43,6 +42,14 @@ class PIN extends Model
     public function markUsed(): bool
     {
         return $this->update(['used' => true]);
+    }
+
+    /**
+     * @return void
+     */
+    public static function resetUsed(): void
+    {
+        static::where('used', true)->update(['used' => false]);
     }
 
     /**
