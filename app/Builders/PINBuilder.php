@@ -7,14 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 class PINBuilder extends Builder
 {
     /**
-     * PINQueryBuilder constructor.
-     */
-    public function __construct($query)
-    {
-        parent::__construct($query);
-    }
-
-    /**
      * @param int $amount
      * @return $this
      */
