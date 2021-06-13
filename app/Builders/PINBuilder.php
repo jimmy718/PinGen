@@ -4,7 +4,7 @@ namespace App\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class PINQueryBuilder extends Builder
+class PINBuilder extends Builder
 {
     /**
      * PINQueryBuilder constructor.

@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Builders\PINQueryBuilder;
+use App\Builders\PINBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
@@ -11,7 +11,7 @@ use Illuminate\Support\Collection;
  * @property string value
  * @property boolean used
  *
- * @mixin PINQueryBuilder
+ * @mixin PINBuilder
  *
  * @package App
  */
@@ -96,10 +96,10 @@ class PIN extends Model
 
     /**
      * @param Builder $query
-     * @return PINQueryBuilder
+     * @return PINBuilder
      */
-    public function newEloquentBuilder($query): PINQueryBuilder
+    public function newEloquentBuilder($query): PINBuilder
     {
-        return new PINQueryBuilder($query);
+        return new PINBuilder($query);
     }
 }
