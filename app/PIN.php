@@ -45,14 +45,6 @@ class PIN extends Model
     }
 
     /**
-     * @return void
-     */
-    public static function resetUsed(): void
-    {
-        static::where('used', true)->update(['used' => false]);
-    }
-
-    /**
      * @return bool
      */
     public function isValid(): bool

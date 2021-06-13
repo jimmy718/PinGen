@@ -70,7 +70,8 @@ class ListPINsTest extends TestCase
 
         $this->getJson(route('PINs.index', ['count' => 3]))->assertJsonCount(3);
 
-        $this->assertCount(3, PIN::where('used', false)->get());
+        // We should be able to request the same PINs again as all 3 are exhausted
+        $this->getJson(route('PINs.index', ['count' => 3]))->assertJsonCount(3);
     }
 
     /** @test */

@@ -22,10 +22,6 @@ class PINController extends Controller
             $pin->markUsed();
         });
 
-        if (PIN::query()->where('used', false)->count() === 0) {
-            PIN::where('used', true)->update(['used' => false]);
-        }
-
         return $pins;
     }
 }

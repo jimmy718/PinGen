@@ -28,7 +28,7 @@ class RefreshPINsIfRequired
     public function handle()
     {
         if ($this->requiredCount > PIN::where('used', false)->count()) {
-            PIN::resetUsed();
+            PIN::where('used', true)->update(['used' => false]);
         }
     }
 }
