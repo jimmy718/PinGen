@@ -7,7 +7,6 @@ use App\Http\Requests\PINListRequest;
 use App\Jobs\RefreshPINsIfRequired;
 use App\PIN;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 
 class PINController extends Controller
 {
