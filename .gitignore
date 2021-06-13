@@ -13,3 +13,6 @@ yarn-error.log
 .idea
 
 docker/mysql/data/*
+
+public/js/*
+public/css/*
