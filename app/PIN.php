@@ -2,15 +2,16 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Builders\PINQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 
 /**
  * @property string value
  * @property boolean used
  *
- * @mixin Builder
+ * @mixin PINQueryBuilder
  *
  * @package App
  */
@@ -91,5 +92,14 @@ class PIN extends Model
     protected function hasUniqueDigits(): bool
     {
         return $this->digits()->unique()->count() === self::UNIQUE_DIGITS;
+    }
+
+    /**
+     * @param Builder $query
+     * @return PINQueryBuilder
+     */
+    public function newEloquentBuilder($query): PINQueryBuilder
+    {
+        return new PINQueryBuilder($query);
     }
 }

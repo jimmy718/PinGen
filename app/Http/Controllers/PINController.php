@@ -21,15 +21,11 @@ class PINController extends Controller
      */
     public function index(Request $request): Collection
     {
-        RefreshPINsIfRequired::dispatch(
-            $request->input('count', self::DEFAULT_COUNT)
-        );
+        $count = $request->input('count', self::DEFAULT_COUNT);
 
-        $pins = PIN::query()
-            ->where('used', false)
-            ->inRandomOrder()
-            ->limit($request->input('count', self::DEFAULT_COUNT))
-            ->get();
+        RefreshPINsIfRequired::dispatch($count);
+
+        $pins = PIN::randomUnused($count)->get();
 
         PINsUsed::dispatch($pins);
 
