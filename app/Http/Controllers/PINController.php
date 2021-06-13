@@ -10,6 +10,7 @@ class PINController extends Controller
     public function index(Request $request)
     {
         $pins = PIN::query()
+            ->where('used', false)
             ->inRandomOrder()
             ->limit($request->input('count', 5))
             ->get();

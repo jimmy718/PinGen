@@ -73,7 +73,18 @@ class ListPINsTest extends TestCase
 
         $this->getJson(route('PINs.index', ['count' => 3]))->assertJsonCount(3);
 
-        // at this point all PINs have been used and "used" flags should have been reset
         $this->assertCount(3, PIN::where('used', false)->get());
+    }
+
+    /** @test */
+    public function PINs_marked_as_used_should_not_be_returned()
+    {
+        $unused = PIN::create(['value' => '1356', 'used' => false]);
+        PIN::create(['value' => '1357', 'used' => true]);
+        PIN::create(['value' => '1358', 'used' => true]);
+
+        $response = $this->getJson(route('PINs.index', ['count' => 1]))->assertJsonCount(1);
+
+        $this->assertTrue($unused->is($response->original->first()));
     }
 }
