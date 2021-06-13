@@ -32,8 +32,11 @@ class ListPINsTest extends TestCase
         $response = $this->getJson(route('PINs.index', ['count' => 3]))->assertJsonCount(3);
 
         $returnedPINs = $response->original;
-        $returnedPINs->pluck('used')->each(function ($flag) {
-            $this->assertTrue($flag);
+        $returnedPINs->pluck('id')->each(function ($id) {
+            $this->assertDatabaseHas('PINs', [
+                'id' => $id,
+                'used' => true
+            ]);
         });
 
         $this->assertCount(1, PIN::where('used', false)->get());
