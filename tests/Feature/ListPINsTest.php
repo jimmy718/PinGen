@@ -58,10 +58,7 @@ class ListPINsTest extends TestCase
             }
         }
 
-        $this->assertTrue(
-            $countOfConsecutiveIds <= 2,
-            'PINs where returned with more than 2 consecutive IDs'
-        );
+        $this->assertTrue($countOfConsecutiveIds <= 2);
     }
 
     /** @test */
@@ -86,5 +83,26 @@ class ListPINsTest extends TestCase
         $response = $this->getJson(route('PINs.index', ['count' => 1]))->assertJsonCount(1);
 
         $this->assertTrue($unused->is($response->original->first()));
+    }
+
+    /** @test */
+    public function when_more_PINs_are_requested_than_are_available_the_flags_will_be_reset_and_then_returned()
+    {
+        PIN::create(['value' => '1356', 'used' => false]);
+        PIN::create(['value' => '1357', 'used' => true]);
+        PIN::create(['value' => '1358', 'used' => true]);
+        PIN::create(['value' => '1359', 'used' => true]);
+
+        $response = $this->getJson(route('PINs.index', ['count' => 2]))->assertJsonCount(2);
+        $returnedPINs = $response->original;
+
+        // should have 2 unused PINs that do not match ids with returned PINs
+        $this->assertCount(2, PIN::where('used', false)->whereNotIn('id', $returnedPINs->pluck('id'))->get());
+
+        // should have 2 used PINs which match ids with the 2 returned
+        $usedPINs = PIN::where('used', true)->get();
+
+        $this->assertCount(2, $usedPINs);
+        $this->assertEqualsCanonicalizing($returnedPINs->pluck('id'), $usedPINs->pluck('id'));
     }
 }

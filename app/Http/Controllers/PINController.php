@@ -9,6 +9,10 @@ class PINController extends Controller
 {
     public function index(Request $request)
     {
+        if ($request->input('count', 5) > PIN::where('used', false)->count()) {
+            PIN::where('used', true)->update(['used' => false]);
+        }
+
         $pins = PIN::query()
             ->where('used', false)
             ->inRandomOrder()
