@@ -26,6 +26,6 @@ The application has been modeled as a JSON endpoint to retrieve the PINs, and a 
 
 ## Running The Application Locally 
 Assuming you have Docker and Docker Compose installed, the Docker development environment can be initialised with the `docker-init.sh` bash script.  
-Once initialised the application can be brought up using `docker-compose up`. The command will remain running until you exit it,   
-and the containers will be shut down. To run the containers in the background, then add the `-d` option to the command.  
+Once initialised the application can be brought up using `docker-compose up`. The command will remain running until you exit it, 
+and the containers will be shut down. To run the containers in the background, then add the `-d` option to the command. 
 Once running in the background, the containers can be shut down by running `docker-compose stop`
